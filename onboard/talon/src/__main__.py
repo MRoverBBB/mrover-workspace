@@ -84,7 +84,7 @@ class Rover:
     async def config_encoder_codes_per_rev(self, talon, codes_per_rev):
         await self.talons[talon].set_param(
             talon_srx.Param.NumberEncoderCPR.value, codes_per_rev)
-
+   
     async def run_all(self):
         asyncio.ensure_future(
                 asyncio.gather(*(t.loop() for t in self.talons)))
