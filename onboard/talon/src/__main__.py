@@ -61,6 +61,10 @@ class Rover:
         await self.talons[talon].set_demand(
             pos, talon_srx.TalonControlMode.kPositionMode.value)
 
+    async def set_current_limit(self, talon, amps):
+        await self.talons[talon].set_param(
+            talon_srx.)
+
     async def run_all(self):
         asyncio.ensure_future(
                 asyncio.gather(*(t.loop() for t in self.talons)))

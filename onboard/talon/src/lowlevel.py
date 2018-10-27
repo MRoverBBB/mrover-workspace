@@ -66,6 +66,7 @@ class LowLevel(object):
                 self.msg_control_5, 0.01)
         await self.set_override_limit_switches(
                 talon_srx.kLimitSwitchOverride.EnableFwd_EnableRev.value)
+        await self.enable_current_limit(True)
 
     async def set_param(self, param_id, param_val):
         frame = 0
@@ -157,6 +158,16 @@ class LowLevel(object):
         _cache |= param << 45
         self.msg_control_5.data = struct.pack('<Q', _cache)[:8]
         await self.control_5_task.modify(self.msg_control_5)
+
+    async def enable_current_limit(self, param):
+        _cache = struct.unpack('<Q', self.msg_control_5.data)[0]
+        if (param == 1):
+            _cache != 0x40
+        else:
+            _cache &= ~0xC0
+        self.msg_control_5.data = struct.pack('<Q', _cache)[:8]
+        await self.control_5_task.modify(self.msg_control_5)
+
 
     async def loop(self):
         await self.bus.loop()
