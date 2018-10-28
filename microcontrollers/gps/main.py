@@ -15,7 +15,7 @@ def main():
             fiveBytes = serialPort.read(5);
             if (fiveBytes == 'GPRMC'):
 #               gpsOdometry = GPSOdometry()
-#               moreBytes = serialPort.read(51)
+               moreBytes = serialPort.read(51)
 #               gpsOdometry.lattitude = float(moreBytes[12:22])
 #               gpsOdometry.longitude = float(moreBytes[25:36])
 #               gpsOdometry.speed = float(moreBytes[39:45])
