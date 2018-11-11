@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import serial
-#from rover_common import aiolcm
-#from rover_msgs import Odometry
+# from rover_common import aiolcm
+# from rover_msgs import Odometry
 
 def main():
  #   lcm = aiolcm.AsyncLCM()
