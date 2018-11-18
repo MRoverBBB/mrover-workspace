@@ -69,6 +69,13 @@ class Rover:
         await self.talons[talon].set_demand(
             pos, talon_srx.TalonControlMode.kPositionMode.value)
 
+    # Function that drives the talon at a set voltage
+    async def voltage_compensation_drive(self, talon, volts):
+	volts = volts * 256
+	await self.talon[talon].set_demand(
+	   volts, talon_srx.TalonControlMode.kVoltageMode.value)
+
+
     # This function sets the current limit for a talon.
     #
     # talon:  Talon SRX to set current limit on
@@ -90,7 +97,16 @@ class Rover:
                 asyncio.gather(*(t.loop() for t in self.talons)))
         await self.configure_talons()
 
-
+    # Internally set ramp rate - which is the rate that
+    # the voltage reaches goal voltage
+    # Function takes in volts in V/s and converts to
+    # V/ms
+    # 
+    async def set_voltage_ramp_rate(self, talon, volts):
+	volts = volts / 1000
+	await self.talons[talon].set_param(
+	   talon_srx.Param.ProfileParamVcompRate.value, volts)
+   
 # Callback for DriveMotors LCM message
 def drive_motor_callback(channel, msg):
     m = DriveMotors.decode(msg)
